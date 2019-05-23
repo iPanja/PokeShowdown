@@ -6,7 +6,9 @@ all he/she needs to know. The comments should usually include at least:
 
 PROJECT TITLE: PokeShowdown
 PURPOSE OF PROJECT: Computer Science A Final Project
-VERSION or DATE: 5/21/2019
+VERSION: 0.2.0
 HOW TO START THIS PROJECT: TBD
 AUTHORS: iPanja, Doc Timbs, EK
 USER INSTRUCTIONS: TBD
+
+CREDIT: All .JSON files are thanks to https://github.com/shri/
