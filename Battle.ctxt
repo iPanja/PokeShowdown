@@ -1,0 +1,7 @@
+#BlueJ class context
+comment0.target=Battle
+comment1.params=num
+comment1.target=void\ handleMove(int)
+comment2.params=num
+comment2.target=void\ handleSwap(int)
+numComments=3

@@ -94,9 +94,9 @@
                         <Pane layoutX="14.0" layoutY="398.0">
                            <children>
                               <Button fx:id="move1Button" mnemonicParsing="false" onAction="#onMove1" prefHeight="54.0" prefWidth="185.0" text="Move 1" />
-                              <Button fx:id="move3Button" layoutY="68.0" mnemonicParsing="false" prefHeight="54.0" prefWidth="185.0" text="Move 3" />
-                              <Button fx:id="move2Button" layoutX="217.0" mnemonicParsing="false" prefHeight="54.0" prefWidth="185.0" text="Move 2" />
-                              <Button fx:id="move4Button" layoutX="217.0" layoutY="68.0" mnemonicParsing="false" prefHeight="54.0" prefWidth="185.0" text="Move 4" />
+                              <Button fx:id="move3Button" layoutY="68.0" mnemonicParsing="false" onAction="#onMove3" prefHeight="54.0" prefWidth="185.0" text="Move 3" />
+                              <Button fx:id="move2Button" layoutX="217.0" mnemonicParsing="false" onAction="#onMove2" prefHeight="54.0" prefWidth="185.0" text="Move 2" />
+                              <Button fx:id="move4Button" layoutX="217.0" layoutY="68.0" mnemonicParsing="false" onAction="#onMove4" prefHeight="54.0" prefWidth="185.0" text="Move 4" />
                            </children>
                         </Pane>
                         <ProgressBar fx:id="pHealthProgressBar" layoutX="14.0" layoutY="256.0" prefHeight="18.0" prefWidth="177.0" progress="1.0" />
@@ -110,14 +110,14 @@
             <Label alignment="CENTER" font="$x1" layoutX="14.0" layoutY="14.0" style="&#10;" text="Party" textAlignment="CENTER" textFill="$x2" wrapText="false" />
                   <Pane layoutX="17.0" layoutY="81.0">
                      <children>
-                        <Button fx:id="swap1Button" mnemonicParsing="false" text="Pokemon 1" />
-                        <Button fx:id="swap2Button" layoutX="114.0" mnemonicParsing="false" text="Pokemon 2" />
+                        <Button fx:id="swap1Button" mnemonicParsing="false" onAction="#onSwap1" text="Pokemon 1" />
+                        <Button fx:id="swap2Button" layoutX="114.0" mnemonicParsing="false" onAction="#onSwap2" text="Pokemon 2" />
                      </children>
                   </Pane>
-                  <Button fx:id="swap5Button" layoutX="17.0" layoutY="322.0" mnemonicParsing="false" text="Pokemon 5" />
-                  <Button fx:id="swap6Button" layoutX="131.0" layoutY="322.0" mnemonicParsing="false" text="Pokemon 6" />
-                  <Button fx:id="swap3Button" layoutX="16.0" layoutY="200.0" mnemonicParsing="false" text="Pokemon 3" />
-                  <Button fx:id="swap4Button" layoutX="130.0" layoutY="200.0" mnemonicParsing="false" text="Pokemon 4" />
+                  <Button fx:id="swap5Button" layoutX="17.0" layoutY="322.0" mnemonicParsing="false" onAction="#onSwap5" text="Pokemon 5" />
+                  <Button fx:id="swap6Button" layoutX="131.0" layoutY="322.0" mnemonicParsing="false" onAction="#onSwap6" text="Pokemon 6" />
+                  <Button fx:id="swap3Button" layoutX="16.0" layoutY="200.0" mnemonicParsing="false" onAction="#onSwap3" text="Pokemon 3" />
+                  <Button fx:id="swap4Button" layoutX="130.0" layoutY="200.0" mnemonicParsing="false" onAction="#onSwap4" text="Pokemon 4" />
           </children>
         </AnchorPane>
       </items>

@@ -9,9 +9,13 @@ import java.net.URL;
 import javax.swing.SwingUtilities;
 import javafx.embed.swing.JFXPanel;
 
+//Driver Class
 public class UI extends Application{
+    public static Battle battle = new Battle(); //Original/Only [Battle] Instance
+    public static UIController _UIController = new UIController(battle);
+    
     public static void main(String[] args){
-        new JFXPanel(); //Stops the ****** error Toolkit not initialized?
+        new JFXPanel(); //Stops the ****** error: Toolkit not initialized
         final JFXPanel fxPanel = new JFXPanel();
         Application.launch(UI.class, args);
     }
@@ -20,6 +24,7 @@ public class UI extends Application{
         FXMLLoader loader = new FXMLLoader();
         System.out.println("-> Loading application");
         loader.setLocation(getClass().getResource("/Scenes/Application.fxml"));
+        loader.setController(this._UIController);
         
         VBox vbox = loader.<VBox>load();
         Scene scene = new Scene(vbox);
