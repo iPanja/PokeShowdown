@@ -22,6 +22,11 @@ public class UIController{
     private ImageView pImage;
     @FXML
     private ImageView epImage;
+    //Health Bars
+    @FXML
+    private ProgressBar pHealthProgressBar;
+    @FXML
+    private ProgressBar epHealthProgressBar;
     //Select a Move button (Battle)
     @FXML
     private Pane movePane;
@@ -109,13 +114,18 @@ public class UIController{
         alert.showAndWait();
     }
     public void setFriendly(Pokemon p){
-        pName.setText(p.name);
-        pImage.setImage(new Image("/sprites/" + p.pokedex + ".png"));
+        pName.setText(p.getName());
+        pImage.setImage(new Image("/sprites/" + p.getPokedex() + ".png"));
         setMove(p.getMoveset());
+        setHealthBar(pHealthProgressBar, p);
     }
     public void setEnemy(Pokemon p){
-        epName.setText(p.name);
-        epImage.setImage(new Image("/sprites/" + p.pokedex + ".png"));
+        epName.setText(p.getName());
+        epImage.setImage(new Image("/sprites/" + p.getPokedex() + ".png"));
+        setHealthBar(epHealthProgressBar, p);
+    }
+    private void setHealthBar(ProgressBar pb, Pokemon p){
+        pb.setProgress(p.getCurrentHP()/((double)p.getBaseHP()));
     }
     public void setParty(Pokemon[] party){
         //showAlert("what the", "heck is going on");
@@ -123,7 +133,7 @@ public class UIController{
         for(Node node : swapBox.getChildren()){
             if(node instanceof Button){
                 Button b = (Button) node;
-                b.setText(battle.party[i].name);
+                b.setText(battle.party[i].getName());
                 if(battle.party[i].isDead()){
                     b.setDisable(true);
                 }

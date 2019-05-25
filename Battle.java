@@ -17,6 +17,10 @@ public class Battle{
                 i++;
             }
         }
+        party[0] = API.getPokemon(152);
+        party[1] = API.getPokemon(153);
+        party[2] = API.getPokemon(154);
+        party[3] = API.getPokemon(155);
     }
     
     public void handleMove(int num, UIController _instance){ //num is between 1 and 4; num-1 signifies the index of the move chosen
