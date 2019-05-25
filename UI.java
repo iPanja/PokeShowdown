@@ -1,4 +1,6 @@
 //Fletcher Henneman
+    //-> "Driver" class
+    //-> This class initially loads the UI and attaches the UIController class to handle any form of interaction/further changes
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.*;
@@ -31,14 +33,5 @@ public class UI extends Application{
         primaryStage.setScene(scene);
         primaryStage.setTitle("Pokemon Showdown");
         primaryStage.show();
-        
-        /*
-        Parent root = FXMLLoader.load(new URL("E:\\Fletcher\\Documents\\AP Comp Sci\\PokeShowdown\\Scenes\\Application.fxml"));
-        if(root == null)
-            System.out.println("ROOT IS NULL, #BRUH");
-        primaryStage.setTitle("Pokemon Showdown");
-        primaryStage.setScene(new Scene(root, 500, 500));
-        primaryStage.show();
-        */
     }
 }

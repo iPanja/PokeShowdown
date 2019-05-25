@@ -1,3 +1,4 @@
+//Placeholder Move class
 public class Move{
     private String name;
     private int power;
@@ -13,6 +14,9 @@ public class Move{
     
     public String getName(){
         return name;
+    }
+    public int getPower(){
+        return power;
     }
     
     public String toString(){

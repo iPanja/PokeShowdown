@@ -1,5 +1,11 @@
 #BlueJ class context
 comment0.target=Pokemon
-comment1.params=name
-comment1.target=Pokemon(java.lang.String)
-numComments=2
+comment1.params=name\ pokedex\ moveset
+comment1.target=Pokemon(java.lang.String,\ int,\ Move[])
+comment2.params=
+comment2.target=Move[]\ getMoveset()
+comment3.params=i
+comment3.target=Move\ getMove(int)
+comment4.params=
+comment4.target=boolean\ isDead()
+numComments=5

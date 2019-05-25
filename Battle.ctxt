@@ -1,7 +1,11 @@
 #BlueJ class context
 comment0.target=Battle
-comment1.params=num
-comment1.target=void\ handleMove(int)
-comment2.params=num
-comment2.target=void\ handleSwap(int)
-numComments=3
+comment1.params=
+comment1.target=Battle()
+comment2.params=
+comment2.target=void\ randomParty()
+comment3.params=num\ _instance
+comment3.target=void\ handleMove(int,\ UIController)
+comment4.params=num\ _instance
+comment4.target=void\ handleSwap(int,\ UIController)
+numComments=5

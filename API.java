@@ -1,4 +1,5 @@
 //Fletcher Henneman
+    //-> This class handles the importing of the JSON files (both Pokemon and their moves) as well as providing public methods to access that information
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Iterator;
@@ -11,6 +12,7 @@ public class API{
     //
     private static HashMap<String, Pokemon> pokemon = new HashMap<String, Pokemon>();
     private static HashMap<String, Move> moves = new HashMap<String, Move>();
+    public static final int amountOfPokemon = 151;
     
     public static void main(String[] args){
         //For testing purposes
@@ -23,7 +25,7 @@ public class API{
     
     //Pokemon.json -> Pokemon[] objects
     private static void importPokemon(){
-        if(pokemon != null)
+        if(pokemon.size() != 0)
             return;
             
         System.out.println("Parsing pokemon.json");
@@ -31,12 +33,20 @@ public class API{
         try{
             FileReader fr = new FileReader("E:\\Fletcher\\Documents\\AP Comp Sci\\PokeShowdown\\pokemon.json");
             JSONObject collection = (JSONObject) parser.parse(fr);
-            for(int i = 1; i <= 10; i++){ //151 Pokemon
-                JSONObject p = (JSONObject) collection.get("" + i);
-                //JSONArray jMoves = p.get("moves");
-                
-                Pokemon poke = new Pokemon((String)p.get("name"));
-                API.pokemon.put((String)p.get("name"), poke);
+            for(int i = 1; i <= amountOfPokemon; i++){ //151 Pokemon
+                try{
+                    JSONObject p = (JSONObject) collection.get("" + i);
+                    JSONArray jMoves = (JSONArray) p.get("moves");
+                    Move[] moveset = new Move[4];
+                    for(int x = 0; x < jMoves.size(); x++){
+                        moveset[x] = getMove((String)jMoves.get(x));
+                    }
+                    
+                    Pokemon poke = new Pokemon((String)p.get("name"), i, moveset);
+                    API.pokemon.put((String)p.get("name"), poke);
+                }catch(NullPointerException e){
+                    
+                }
             }
         }catch(FileNotFoundException e){
             System.out.println(e);
@@ -45,7 +55,7 @@ public class API{
         }catch(ParseException e){
             System.out.println(e);
         }
-        System.out.println("151 Pokemon Imported");
+        System.out.println(amountOfPokemon + " Pokemon Imported");
     }
     private static Move getMove(String name){
         for(Map.Entry<String, Move> entry : moves.entrySet()){
@@ -80,6 +90,23 @@ public class API{
             System.out.println(e);
             return null;
         }
-       
+    }
+    //Getter/Setter - Accessible API methods
+    public static Pokemon getPokemon(String name){
+        if(pokemon.size() == 0) importPokemon();
+        for(Pokemon p : pokemon.values()){
+            if(p.name.equals(name))
+                return p;
+        }
+        return null;
+    }
+    public static Pokemon getPokemon(int pokedex){
+        if(pokemon.size() == 0) importPokemon();
+        for(Pokemon p : pokemon.values()){
+            if(p.pokedex == pokedex)
+                return p;
+        }
+        System.out.println("crud");
+        return null;
     }
 }
