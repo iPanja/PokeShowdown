@@ -4,11 +4,17 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.*;
-import javafx.stage.Window;;
+import javafx.stage.Window;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.*;
 import javafx.scene.layout.*;
+import javafx.scene.media.*;
+import java.awt.Desktop;
+import java.net.URI;
+import java.util.Optional;
+import javafx.application.Application;
+import javafx.stage.*;
 
 public class UIController{
     //Parent Class
@@ -22,11 +28,19 @@ public class UIController{
     private ImageView pImage;
     @FXML
     private ImageView epImage;
-    //Health Bars
+    //Health Bars & Team Indicator
     @FXML
     private ProgressBar pHealthProgressBar;
     @FXML
     private ProgressBar epHealthProgressBar;
+    @FXML
+    private HBox ePartyIndicatorBox;
+    //Music Player View
+    @FXML
+    private MediaView mediaView;
+    @FXML
+    private Button toggleMusicButton;
+    private Boolean enabled;
     //Select a Move button (Battle)
     @FXML
     private Pane movePane;
@@ -59,9 +73,25 @@ public class UIController{
     }
     @FXML
     public void initialize(){   
-        battle.randomParty();
+        battle.generateTeams();
         setParty(battle.party);
         setFriendly(battle.party[0]);
+        setEnemy(battle.eparty[0]);
+        enabled = true;
+    }
+    public void restart(){
+        System.out.println("Restarting!");
+        try{
+            quit();
+            UI ui = new UI();
+            Stage stage = new Stage();
+            ui.start(stage);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+    public void quit(){
+        UI.pStage.close();
     }
     // [Event] onSelectMove
     @FXML
@@ -105,13 +135,34 @@ public class UIController{
     private void onSwap6(ActionEvent event){
         battle.handleSwap(6, this);
     }
+    //Music Toggling
+    @FXML
+    private void onToggleMusic(ActionEvent event){
+        toggleMusic();
+    }
     //Useful methods
+    public void refreshUI(){
+        setFriendly(battle.party[battle.selected]);
+        setEnemy(battle.eparty[battle.eselected]);
+        setParty(battle.party);
+        setEnemyPartyIndicator(battle.eparty);
+    }
     public void showAlert(String header, String message){
         Alert alert = new Alert(AlertType.INFORMATION);
         alert.setTitle("Notification");
         alert.setHeaderText(header);
         alert.setContentText(message);
         alert.showAndWait();
+    }
+    public Boolean confirmAlert(String header, String message){
+        Alert alert = new Alert(AlertType.CONFIRMATION);
+        alert.setTitle("Notification");
+        alert.setHeaderText(header);
+        alert.setContentText(message);
+        Optional<ButtonType> result = alert.showAndWait();
+        if(result.get() == ButtonType.OK)
+            return true;
+        return false;
     }
     public void setFriendly(Pokemon p){
         pName.setText(p.getName());
@@ -146,14 +197,53 @@ public class UIController{
         for(Node node : movePane.getChildren()){
             if(node instanceof Button){
                 Button b = (Button) node;
-                if(moveset[i] != null){
-                    b.setText(moveset[i].getName());
+                if(moveset[i] != null && moveset[i].getPP() > 0){
+                    b.setText(moveset[i].getName() + ": " + moveset[i].getPower() + " (" + moveset[i].getPP() + "/" + moveset[i].getBasePP() + ")");
                     b.setDisable(false);
+                }else if(moveset[i] != null && moveset[i].getPP() == 0){
+                    b.setText(moveset[i].getName() + ": " + moveset[i].getPower() + " (" + moveset[i].getPP() + "/" + moveset[i].getBasePP() + ")");
+                    b.setDisable(true);
                 }else{
                     b.setText("");
                     b.setDisable(true);
                 }
                 i++;
+            }
+        }
+    }
+    public void setMusicPlayer(MediaPlayer mediaPlayer){
+        mediaView.setMediaPlayer(mediaPlayer);
+    }
+    public void setEnemyPartyIndicator(Pokemon[] party){
+        int i = 0;
+        for(Node node : ePartyIndicatorBox.getChildren()){
+            if(node instanceof ImageView){
+                ImageView img = (ImageView) node;
+                if(party[i].isDead()){
+                    img.setImage(new Image("/Scenes/Pokeball_fainted.png"));
+                }else{
+                    img.setImage(new Image("/Scenes/Pokeball.png"));
+                }
+                i++;
+            }
+        }
+    }
+    public void toggleMusic(){
+        enabled = !enabled;
+        if(enabled){
+            mediaView.getMediaPlayer().play();
+            toggleMusicButton.setText("Pause Music");
+        }else{
+            mediaView.getMediaPlayer().pause();
+            toggleMusicButton.setText("Resume Music");
+        }
+    }
+    public void openGithub(){
+        if(Desktop.isDesktopSupported() && Desktop.getDesktop() != null){
+            try{
+                Desktop.getDesktop().browse(new URI("https://github.com/iPanja/PokeShowdown"));
+            }catch(Exception e){
+                System.out.println("Github URL broken");
             }
         }
     }

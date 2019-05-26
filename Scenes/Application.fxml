@@ -8,7 +8,6 @@
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.ProgressBar?>
 <?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.control.SeparatorMenuItem?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -16,6 +15,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.media.MediaView?>
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
 
@@ -23,39 +23,9 @@
   <children>
     <MenuBar VBox.vgrow="NEVER">
       <menus>
-        <Menu mnemonicParsing="false" text="File">
-          <items>
-            <MenuItem mnemonicParsing="false" text="New" />
-            <MenuItem mnemonicParsing="false" text="Open…" />
-            <Menu mnemonicParsing="false" text="Open Recent" />
-            <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" text="Close" />
-            <MenuItem mnemonicParsing="false" text="Save" />
-            <MenuItem mnemonicParsing="false" text="Save As…" />
-            <MenuItem mnemonicParsing="false" text="Revert" />
-            <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" text="Preferences…" />
-            <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" text="Quit" />
-          </items>
-        </Menu>
-        <Menu mnemonicParsing="false" text="Edit">
-          <items>
-            <MenuItem mnemonicParsing="false" text="Undo" />
-            <MenuItem mnemonicParsing="false" text="Redo" />
-            <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" text="Cut" />
-            <MenuItem mnemonicParsing="false" text="Copy" />
-            <MenuItem mnemonicParsing="false" text="Paste" />
-            <MenuItem mnemonicParsing="false" text="Delete" />
-            <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" text="Select All" />
-            <MenuItem mnemonicParsing="false" text="Unselect All" />
-          </items>
-        </Menu>
         <Menu mnemonicParsing="false" text="Help">
           <items>
-            <MenuItem mnemonicParsing="false" text="About MyHelloApp" />
+            <MenuItem mnemonicParsing="false" onAction="#openGithub" text="About PokeShowdown" />
           </items>
         </Menu>
       </menus>
@@ -76,6 +46,8 @@
                   <Label layoutX="16.0" layoutY="113.0" prefHeight="56.0" prefWidth="190.0" text="You and your rival are equipped with a team of 6 randomly chosen Pokemon." wrapText="true" />
                   <Label layoutX="16.0" layoutY="182.0" prefHeight="56.0" prefWidth="190.0" text="Without the aid of any medical supplies, you must battle it out to the end. Last team standing wins!" wrapText="true" />
                   <Label alignment="CENTER" layoutX="16.0" layoutY="511.0" prefHeight="40.0" prefWidth="190.0" style="-fx-font-weight: bold;" text="Created by Team Bot-otron" wrapText="true" />
+                  <MediaView fx:id="mediaView" fitHeight="200.0" fitWidth="200.0" layoutX="11.0" layoutY="276.0" />
+                  <Button fx:id="toggleMusicButton" layoutX="70.0" layoutY="423.0" mnemonicParsing="false" onAction="#onToggleMusic" text="Pause Music" />
           </children>
         </AnchorPane>
         <ScrollPane prefHeight="-1.0" prefWidth="-1.0">
@@ -98,13 +70,47 @@
                         <Pane fx:id="movePane" layoutX="14.0" layoutY="398.0">
                            <children>
                               <Button fx:id="move1Button" mnemonicParsing="false" onAction="#onMove1" prefHeight="54.0" prefWidth="185.0" text="Move 1" />
-                              <Button fx:id="move3Button" layoutY="68.0" mnemonicParsing="false" onAction="#onMove3" prefHeight="54.0" prefWidth="185.0" text="Move 3" />
-                              <Button fx:id="move2Button" layoutX="217.0" mnemonicParsing="false" onAction="#onMove2" prefHeight="54.0" prefWidth="185.0" text="Move 2" />
+                              <Button fx:id="move2Button" layoutY="68.0" mnemonicParsing="false" onAction="#onMove2" prefHeight="54.0" prefWidth="185.0" text="Move 2" />
+                              <Button fx:id="move3Button" layoutX="217.0" mnemonicParsing="false" onAction="#onMove3" prefHeight="54.0" prefWidth="185.0" text="Move 3" />
                               <Button fx:id="move4Button" layoutX="217.0" layoutY="68.0" mnemonicParsing="false" onAction="#onMove4" prefHeight="54.0" prefWidth="185.0" text="Move 4" />
                            </children>
                         </Pane>
                         <ProgressBar fx:id="pHealthProgressBar" layoutX="14.0" layoutY="256.0" prefHeight="18.0" prefWidth="177.0" progress="1.0" />
                         <ProgressBar fx:id="epHealthProgressBar" layoutX="215.0" layoutY="49.0" prefHeight="18.0" prefWidth="174.0" progress="1.0" />
+                        <HBox fx:id="ePartyIndicatorBox" layoutX="220.0" layoutY="200.0" prefHeight="25.0" prefWidth="178.0" style="-fx-spacing: 5;">
+                           <children>
+                              <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@Pokeball.png" />
+                                 </image>
+                              </ImageView>
+                              <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@Pokeball.png" />
+                                 </image>
+                              </ImageView>
+                              <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@Pokeball.png" />
+                                 </image>
+                              </ImageView>
+                              <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@Pokeball.png" />
+                                 </image>
+                              </ImageView>
+                              <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@Pokeball.png" />
+                                 </image>
+                              </ImageView>
+                              <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@Pokeball.png" />
+                                 </image>
+                              </ImageView>
+                           </children>
+                        </HBox>
               </children>
             </AnchorPane>
           </content>

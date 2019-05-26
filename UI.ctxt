@@ -4,4 +4,6 @@ comment1.params=args
 comment1.target=void\ main(java.lang.String[])
 comment2.params=primaryStage
 comment2.target=void\ start(javafx.stage.Stage)
-numComments=3
+comment3.params=
+comment3.target=void\ run()
+numComments=4

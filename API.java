@@ -12,7 +12,7 @@ public class API{
     //
     private static HashMap<String, Pokemon> pokemon = new HashMap<String, Pokemon>();
     private static HashMap<String, Move> moves = new HashMap<String, Move>();
-    public static final int amountOfPokemon = 155;
+    public static final int amountOfPokemon = 151;
     
     public static void main(String[] args){
         //For testing purposes
@@ -31,7 +31,7 @@ public class API{
         System.out.println("Parsing pokemon.json (" + pokemon.size() + ")");
         JSONParser parser = new JSONParser();
         try{
-            FileReader fr = new FileReader("E:\\Fletcher\\Documents\\AP Comp Sci\\PokeShowdown\\pokemon.json");
+            FileReader fr = new FileReader("pokemon.json");
             JSONObject collection = (JSONObject) parser.parse(fr);
             for(int i = 1; i <= amountOfPokemon; i++){ //151 Pokemon
                 try{
@@ -41,14 +41,15 @@ public class API{
                     for(int x = 0; x < jMoves.size(); x++){
                         moveset[x] = getMove((String)jMoves.get(x));
                     }
-                    /*
-                    String[] types = new String[2];
-                    for(int x = 0; x < 2; x++){
-                        types[x] = (String) ((JSONArray)p.get("types")).get(x);
-                    }
-                    */
                     
-                    Pokemon poke = new Pokemon((String)p.get("name"), 100/*Integer.valueOf((String)p.get("hp"))*/, Integer.valueOf(String.valueOf(p.get("attack"))), Integer.valueOf(String.valueOf(p.get("defense"))), 85/*Integer.valueOf(String.valueOf(p.get("speed")))*/, new String[]{"flying", "fire"}/*types*/, moveset, i);
+                    JSONArray jTypes = (JSONArray) p.get("type");
+                    String[] types = new String[2];
+                    for(int x = 0; x < jTypes.size(); x++){
+                        types[x] = (String) jTypes.get(x);
+                    }
+                    
+                    
+                    Pokemon poke = new Pokemon((String)p.get("name"), Integer.valueOf(String.valueOf(p.get("hp"))), Integer.valueOf(String.valueOf(p.get("attack"))), Integer.valueOf(String.valueOf(p.get("defense"))), Integer.valueOf(String.valueOf(p.get("speed"))), /*new String[]{"flying", "fire"}*/types, moveset, i);
                     API.pokemon.put((String)p.get("name"), poke);
                 }catch(NullPointerException e){
                     //Do nothing - Some Pokemon IDs are missing so just skip over them
@@ -66,6 +67,7 @@ public class API{
             System.out.println(e);
         }
         System.out.println(amountOfPokemon + " Pokemon Imported");
+        System.out.println(moves.size() + " Moves Imported");
     }
     private static Move getMove(String name){
         for(Map.Entry<String, Move> entry : moves.entrySet()){
@@ -77,7 +79,7 @@ public class API{
         //System.out.println("-> Parsing pokemonMoves.json");
         JSONParser parser = new JSONParser();
         try{
-            FileReader fr = new FileReader("E:\\Fletcher\\Documents\\AP Comp Sci\\PokeShowdown\\pokemonMoves.json");
+            FileReader fr = new FileReader("pokemonMoves.json");
             JSONObject collection = (JSONObject) parser.parse(fr);
             JSONObject m = (JSONObject) collection.get(name);
             if(m == null)
@@ -89,7 +91,7 @@ public class API{
             
             Move move = new Move((String) m.get("name"), Integer.valueOf(String.valueOf(m.get("power"))), Float.valueOf(String.valueOf(m.get("accuracy"))), (String) m.get("type"), 5/*Integer.valueOf((String)m.get("pp"))*/);
             moves.put(String.valueOf(m.get("name")), move);
-            return move;
+            return (Move) move.clone();
         }catch(FileNotFoundException e){
             System.out.println(e);
             return null;
@@ -106,7 +108,7 @@ public class API{
         if(pokemon.size() == 0) importPokemon();
         for(Pokemon p : pokemon.values()){
             if(p.getName().equals(name))
-                return p;
+                return (Pokemon) p.clone();
         }
         System.out.println("crud 1");
         return null;
@@ -115,9 +117,9 @@ public class API{
         if(pokemon.size() == 0) importPokemon();
         for(Pokemon p : pokemon.values()){
             if(p.getPokedex() == pokedex)
-                return p;
+                return (Pokemon) p.clone();
         }
-        System.out.println("crud 2 (" + pokedex + ")");
+        //System.out.println("crud 2 (" + pokedex + ")");
         return null;
     }
 }

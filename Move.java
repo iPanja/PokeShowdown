@@ -1,7 +1,7 @@
 //Diego Urena
-public class Move{
+public class Move implements Cloneable{
     private String name;
-    private int power,pp;
+    private int power,pp,basepp;
     private float accuracy;
     private String type;
     
@@ -139,6 +139,15 @@ public class Move{
         this.accuracy = accuracy;
         this.type = type;
         this.pp=pp;
+        this.basepp = pp;
+    }
+    public Object clone(){
+        try{
+            return super.clone();
+        }catch(CloneNotSupportedException e){
+            System.out.println("crud 3");
+            return null;
+        }
     }
     
     public float getEffectiveness(Pokemon opp){
@@ -171,6 +180,9 @@ public class Move{
     
     public int getPP(){
         return pp;
+    }
+    public int getBasePP(){
+        return basepp;
     }
     
     public void useMove(){
