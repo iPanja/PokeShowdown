@@ -4,6 +4,7 @@ public class Move implements Cloneable{
     private int power,pp,basepp;
     private float accuracy;
     private String type;
+    private boolean crit;
     
     private static float effective(String t1,String t2){
           float effectiveness=1.0f;
@@ -140,6 +141,7 @@ public class Move implements Cloneable{
         this.type = type;
         this.pp=pp;
         this.basepp = pp;
+        crit = false;
     }
     public Object clone(){
         try{
@@ -152,6 +154,18 @@ public class Move implements Cloneable{
     
     public float getEffectiveness(Pokemon opp){
         return effective(type,opp.getType().get(0))*effective(type,opp.getType().get(1));
+    }
+    
+    public String effectiveMessage(Pokemon opp){
+        if(getEffectiveness(opp)>=2){
+            return "It's super effective! ";
+        }else if(getEffectiveness(opp)==0){
+            return "It had no effect... ";
+        }else if(getEffectiveness(opp)<1){
+            return "It's not very effective. ";
+        }else{
+            return "";
+        }
     }
 
      public float stab(Pokemon user){
@@ -187,6 +201,21 @@ public class Move implements Cloneable{
     
     public void useMove(){
         pp--;
+    }
+    
+    public int getCritModifier(){
+        double random=Math.random();
+        if(random<0.10){
+            crit=true;
+            return 2;
+        }else{
+            crit=false;
+            return 1;
+        }
+    }
+    
+    public boolean getCrit(){
+        return crit;
     }
     
     public String toString(){

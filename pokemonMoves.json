@@ -580,5 +580,11 @@
     "power": 100,
     "accuracy": 1,
     "type": "dragon"
+  },
+  "banana beam": {
+    "name": "banana beam",
+    "power": 999,
+    "accuracy": 1,
+    "type": "dragon"
   }
 }

@@ -73,7 +73,8 @@ public class API{
         for(Map.Entry<String, Move> entry : moves.entrySet()){
             if(entry.getKey().equalsIgnoreCase(name)){
                 //System.out.println("-> Move already imported...");
-                return entry.getValue();}
+                return (Move) entry.getValue().clone();
+            }
         }
         
         //System.out.println("-> Parsing pokemonMoves.json");
@@ -90,7 +91,7 @@ public class API{
             //String type = String.valueOf(m.get("type"));
             
             Move move = new Move((String) m.get("name"), Integer.valueOf(String.valueOf(m.get("power"))), Float.valueOf(String.valueOf(m.get("accuracy"))), (String) m.get("type"), 5/*Integer.valueOf((String)m.get("pp"))*/);
-            moves.put(String.valueOf(m.get("name")), move);
+            moves.put(String.valueOf(m.get("name")), (Move) move.clone());
             return (Move) move.clone();
         }catch(FileNotFoundException e){
             System.out.println(e);

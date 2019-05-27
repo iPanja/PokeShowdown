@@ -14,6 +14,7 @@ import java.awt.Desktop;
 import java.net.URI;
 import java.util.Optional;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.stage.*;
 
 public class UIController{
@@ -28,6 +29,10 @@ public class UIController{
     private ImageView pImage;
     @FXML
     private ImageView epImage;
+    @FXML
+    private Label pDecision;
+    @FXML
+    private Label epDecision;
     //Health Bars & Team Indicator
     @FXML
     private ProgressBar pHealthProgressBar;
@@ -77,15 +82,35 @@ public class UIController{
         setParty(battle.party);
         setFriendly(battle.party[0]);
         setEnemy(battle.eparty[0]);
-        enabled = true;
+        enabled = false;
     }
     public void restart(){
         System.out.println("Restarting!");
+        /*
         try{
             quit();
+            
             UI ui = new UI();
+            ui.battle = new Battle();
+            ui._UIController = new UIController(battle);
             Stage stage = new Stage();
-            ui.start(stage);
+            Platform.runLater(new Runnable() {
+                @Override
+                public void run(){
+                    try{
+                        ui.start(stage);
+                    }catch(Exception e){
+                        e.printStackTrace();
+                    }
+                }
+            }); 
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        */
+       quit();
+       try{
+           Process proc = Runtime.getRuntime().exec("java -jar Game.jar");
         }catch(Exception e){
             e.printStackTrace();
         }
@@ -141,11 +166,24 @@ public class UIController{
         toggleMusic();
     }
     //Useful methods
-    public void refreshUI(){
+    public void refreshUI(Decision userDecision, Decision aiDecision){
         setFriendly(battle.party[battle.selected]);
         setEnemy(battle.eparty[battle.eselected]);
         setParty(battle.party);
         setEnemyPartyIndicator(battle.eparty);
+        setTurnDescription(userDecision, aiDecision);
+    }
+    private void setTurnDescription(Decision userDecision, Decision aiDecision){
+        //User
+        pDecision.setText(userDecision.toString());
+        //AI
+        epDecision.setText(aiDecision.toString());
+    }
+    public void setFriendlyDescription(String message){
+        pDecision.setText(message);
+    }
+    public void setEnemyDescription(String message){
+        epDecision.setText(message);
     }
     public void showAlert(String header, String message){
         Alert alert = new Alert(AlertType.INFORMATION);
@@ -165,13 +203,13 @@ public class UIController{
         return false;
     }
     public void setFriendly(Pokemon p){
-        pName.setText(p.getName());
+        pName.setText(p.getName() + " L" + p.getLevel());
         pImage.setImage(new Image("/sprites/" + p.getPokedex() + ".png"));
         setMove(p.getMoveset());
         setHealthBar(pHealthProgressBar, p);
     }
     public void setEnemy(Pokemon p){
-        epName.setText(p.getName());
+        epName.setText(p.getName() + " L" + p.getLevel());
         epImage.setImage(new Image("/sprites/" + p.getPokedex() + ".png"));
         setHealthBar(epHealthProgressBar, p);
     }

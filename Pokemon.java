@@ -16,7 +16,7 @@ public class Pokemon implements Cloneable{
         this.attack=attack;
         this.defense=defense;
         this.speed=speed;
-        level=100;
+        level=(int) (Math.random()*11)+79;
         moveset=new Move[moves.length];
         for(int i=0;i<moveset.length;i++){
             moveset[i]=moves[i];
@@ -108,7 +108,9 @@ public class Pokemon implements Cloneable{
         }
         
         if(!moves){
-            moveset=new Move[4];
+            for(int i = 1; i < 4; i++){
+                moveset[i] = null;
+            }
             moveset[0]=new Move("Struggle",35,0.95f,"normal",10000);
         }
     }

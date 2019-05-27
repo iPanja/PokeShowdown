@@ -111,6 +111,8 @@
                               </ImageView>
                            </children>
                         </HBox>
+                        <Label fx:id="pDecision" layoutX="229.0" layoutY="266.0" prefHeight="88.0" prefWidth="173.0" wrapText="true" />
+                        <Label fx:id="epDecision" layoutX="18.0" layoutY="67.0" prefHeight="92.0" prefWidth="173.0" wrapText="true" />
               </children>
             </AnchorPane>
           </content>

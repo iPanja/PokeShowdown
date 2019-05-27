@@ -9,6 +9,8 @@ public class Battle{
     public Battle(){
         party = new Pokemon[6];
         eparty = new Pokemon[6];
+        selected = 0;
+        eselected = 0;
     }
     private Pokemon[] randomParty(){
         Pokemon[] p = new Pokemon[6];
@@ -31,14 +33,12 @@ public class Battle{
     }
     //Ethan Kim
     private int damageCalc(Move userMove, Pokemon user, Pokemon opp){
-        double random=Math.random();
-        int critical=1;
-        if(random<0.10)
-            critical=2;
+        int critical = userMove.getCritModifier();
+        
         float modifier=userMove.getEffectiveness(opp)*userMove.stab(user)*critical;
         return (int) (((((2*user.getLevel())/5+2) * userMove.getPower() * (user.getAttack()/opp.getDefense()))/50 + 2) * modifier);
     }
-    public void hit(Move userMove, Pokemon user, Pokemon opp, UIController _instance){
+    public Boolean hit(Move userMove, Pokemon user, Pokemon opp){
         double random=Math.random();
         if(random<=userMove.getAccuracy()){
             opp.takeDamage(damageCalc(userMove,user,opp));
@@ -47,8 +47,9 @@ public class Battle{
             }
             userMove.useMove();
             user.outOfPP();
+            return true;
         }else{
-            _instance.showAlert("You Missed", "Your attack has missed, woops!");
+            return false;
         }
     }
     
@@ -70,78 +71,125 @@ public class Battle{
         Move move = party[selected].getMove(num-1);
         //_instance.showAlert("Attack!", "You have dealt " + move.getPower() + " damage");
         //Handle move
-        if(!AITurn()){
-            AISwitch();
-            hit(move, party[selected], eparty[eselected], _instance);
-            if(eparty[eselected].isDead()){
-                AISwitch();
-            }
-        }else{
-            int speed = party[selected].getSpeed();
-            int espeed = eparty[eselected].getSpeed();
-            if(speed > espeed){
-                userAttacksFirst(move, _instance);
-            }else if(speed == espeed){
-                if(Math.random() < 0.5){
-                    userAttacksFirst(move, _instance);
-                }else{
-                    aiAttacksFirst(move, _instance);
-                }
-            }else{
-                aiAttacksFirst(move, _instance);
-            }
-        }
-        _instance.refreshUI();
-        turnOver(_instance);
-    }
-       private void userAttacksFirst(Move move, UIController _instance){
-            hit(move, party[selected], eparty[eselected], _instance);
-            //Check if AI died
-            if(eparty[eselected].isDead()){
-                AISwitch();
-            }else{
-                System.out.println(eparty[eselected].getMove(maxDamageIndex(eparty[eselected],party[selected])));
-                hit(eparty[eselected].getMove(maxDamageIndex(eparty[eselected],party[selected])),eparty[eselected],party[selected], _instance);
-            }
-            if(party[selected].isDead()){
-                //Force user to switch
-                _instance.showAlert("K.O.", "Please switch out your Pokemon");
-            }
-        }
-        private void aiAttacksFirst(Move userMove, UIController _instance){
-            System.out.println(eparty[eselected].getMove(maxDamageIndex(eparty[eselected],party[selected])));
-            hit(eparty[eselected].getMove(maxDamageIndex(eparty[eselected],party[selected])),eparty[eselected],party[selected], _instance);
-            //Check if User's pokemon died
-            if(party[selected].isDead()){
-                //Force user to switch
-                _instance.showAlert("K.O.", "Please switch out your Pokemon");
-            }else{
-                hit(userMove, party[selected], eparty[eselected], _instance);
-            }
-            if(eparty[eselected].isDead()){
-                AISwitch();
-            }
-        }
+        /*
+         * AITurn() AISwitch()
+         * User Attacks: hit(move, party[selected], eparty[eselected], _instance);
+         * AI Attacks: hit(eparty[eselected].getMove(maxDamageIndex(eparty[eselected],party[selected])),eparty[eselected],party[selected], _instance);
+         * 
+         */
         
+        Decision userDecision = new Decision(move, party[selected].getName(), move.effectiveMessage(eparty[eselected]));
+        handleTurn(userDecision, _instance);
+    }    
     public void handleSwap(int num, UIController _instance){ //num is between 1 and 6; num-1 signifies the index of the Pokemon chosen
         if(num < 1 || num > 6) return;
         int temp = num-1;
         Boolean wasDead = party[selected].isDead();
-        if(!party[temp].isDead()){
-            selected = temp;
+        
+        handleTurn(new Decision(temp, party[temp].getName(), wasDead), _instance);
+    }
+    
+    private void handleTurn(Decision userDecision, UIController _instance){
+        Decision aiDecision = getAIDecision();
+        
+        //Swapping
+        if(userDecision.getType() == type.SWAP){ //If user SWAPS
+            selected = userDecision.getSwapIndex();
+            if(userDecision.isDeadSwap()){ //If user is swapping after their Pokemon died, the AI can not retaliate
+                //Update UI
+                _instance.refreshUI(userDecision, aiDecision);
+                _instance.setFriendlyDescription("Switched out to " + userDecision.getName() + ". ");
+                _instance.setEnemyDescription("");
+                turnOver(_instance);
+                return;
+            }
         }
-        if(!AITurn()){
-            AISwitch();
-        }else if(!wasDead){
-             hit(eparty[eselected].getMove(maxDamageIndex(eparty[eselected],party[selected])),eparty[eselected],party[selected], _instance);
+        if(aiDecision.getType() == type.SWAP){
+            eselected = aiDecision.getSwapIndex();
+            if(userDecision.getType() == type.ATTACK)
+                userDecision.setEffectiveness(userDecision.getMove().effectiveMessage(eparty[eselected])); //Redo effectiveness for new enemy target
+        }
+        //Attacking
+        Move userMove = userDecision.getMove();
+        Move aiMove = aiDecision.getMove();
+        if(userDecision.getType() == type.ATTACK && aiDecision.getType() == type.ATTACK){
+            int userSpeed = party[selected].getSpeed();
+            int aiSpeed = eparty[eselected].getSpeed();
+            Boolean userFirst;
+            if(userSpeed > aiSpeed){
+                //User first
+                userFirst = true;
+            }else if(userSpeed == aiSpeed){
+                //Roll to see
+                if(Math.random() < 0.5){
+                    //User first
+                    userFirst = true;
+                }else{
+                    //AI first
+                    userFirst = false;
+                }
+            }else{
+                //AI first
+                userFirst = false;
+            }
+            Boolean a = attack(userDecision, aiDecision, userFirst, _instance);
+            Boolean b = false;
+            if(!a)
+                b = attack(userDecision, aiDecision, !userFirst, _instance);
+                
+            //userFirst = FALSE
+            //a = TRUE
+            //b = FALSE
+                
+            //Used a move, then died
+            //Decision.setExtra(Decision.getDescription())
+            if(b){
+                if(userFirst) userDecision.setExtra(userDecision.getDescription());
+                else aiDecision.setExtra(aiDecision.getDescription());
+            }
+        }else if(userDecision.getType() == type.ATTACK){
+            Boolean a = attack(userDecision, aiDecision, true, _instance);
+            if(a) //AI Died
+                aiDecision.setExtra(aiDecision.getDescription());
+        }else if(aiDecision.getType() == type.ATTACK){
+            Boolean a = attack(userDecision, aiDecision, false, _instance);
+            if(a) //User Died
+                userDecision.setExtra(userDecision.getDescription());
         }
         
-        if(eparty[eselected].isDead())
-            AISwitch();
-        
-        _instance.refreshUI();
+        //Update UI
+        _instance.refreshUI(userDecision, aiDecision);
         turnOver(_instance);
     }
+    private Boolean attack(Decision userDecision, Decision aiDecision, Boolean userFirst, UIController _instance){
+        Move userMove = userDecision.getMove();
+        Move aiMove = aiDecision.getMove();
+        if(userFirst){
+            if(!hit(userMove, party[selected], eparty[eselected]))
+                userDecision.setMissed(true);
+            else{
+                if(eparty[eselected].isDead() && pokemonLeft(eparty) >= 1){
+                    int temp = AISwitch();
+                    //_instance.setEnemyDescription(eparty[eselected].getName() + " has fainted! Switched to " + eparty[temp].getName());
+                    aiDecision.overrideMessage(eparty[eselected].getName() + " has fainted! Switched to " + eparty[temp].getName() + ". ");
+                    eselected = temp;
+                    return true;
+                }
+            }
+        }else{
+            if(!hit(aiMove, eparty[eselected], party[selected]))
+                aiDecision.setMissed(true);
+            else{
+                if(party[selected].isDead()){
+                    //_instance.setFriendlyDescription(party[selected].getName() + "has fainted!");
+                    userDecision.overrideMessage(party[selected].getName() + " has fainted! ");
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    
     private int typeAdv(Pokemon user, Pokemon opp){
         Move oppTest = new Move("test", 10, 1.0f, opp.getType().get(0), 1);
         Move oppTest2 = null;
@@ -152,12 +200,20 @@ public class Battle{
         if(oppTest2 != null){
             advantage += (-1) * moveAdv(oppTest2, user);
         }
-        System.out.println("MDI: " + maxDamageIndex(user, opp));
+        int index = maxDamageIndex(user, opp);
+        //System.out.println("MDI: " + index);
+        if(user.getMove(index) == null){
+            System.out.println(user.getName());
+            System.out.println(opp.getName());
+            for(Move m : user.getMoveset())
+                System.out.println(m);
+            System.out.println("--------");
+        }
         advantage += moveAdv(user.getMove(maxDamageIndex(user, opp)), opp);
         return advantage;
     }
     private static int moveAdv(Move userMove, Pokemon opp){
-        System.out.println("UM: " + userMove);
+        //System.out.println("UM: " + userMove);
         if(Math.abs(userMove.getEffectiveness(opp)-4)<0.1){
             return 2;
         }else if(Math.abs(userMove.getEffectiveness(opp)-2)<0.1){
@@ -228,6 +284,17 @@ public class Battle{
             return hitOrSwap(0.90);
         }
     }
+    public Decision getAIDecision(){
+        if(AITurn() || pokemonLeft(eparty) == 1 || AISwitch() == eselected){
+            //(Attack) Find best move to use
+            Move m = eparty[eselected].getMove(maxDamageIndex(eparty[eselected],party[selected]));
+            return new Decision(m, eparty[eselected].getName(), m.effectiveMessage(party[selected]));
+        }else{
+            //(Swap) Find best Pokemon to swap to
+            int index = AISwitch();
+            return new Decision(index, eparty[index].getName());
+        }
+    }
     
     private static int speedAdv(Pokemon user, Pokemon opp){
         if(user.getSpeed()>opp.getSpeed()){
@@ -253,7 +320,7 @@ public class Battle{
         }
     }
     
-    private void AISwitch(){
+    private int AISwitch(){
         int maxAdvantage=advantage(party[selected],eparty[eselected]);
         int bestIndex = -1;
         for(int i=0;i<eparty.length;i++){
@@ -268,7 +335,7 @@ public class Battle{
                 }
             }
         }
-        eselected = bestIndex == -1 ? eselected : bestIndex;
+        return bestIndex == -1 ? eselected : bestIndex;
     }
     
     
