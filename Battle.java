@@ -84,6 +84,7 @@ public class Battle{
     public void handleSwap(int num, UIController _instance){ //num is between 1 and 6; num-1 signifies the index of the Pokemon chosen
         if(num < 1 || num > 6) return;
         int temp = num-1;
+        if(temp == selected) return;
         Boolean wasDead = party[selected].isDead();
         
         handleTurn(new Decision(temp, party[temp].getName(), wasDead), _instance);

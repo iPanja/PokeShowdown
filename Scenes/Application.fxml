@@ -69,10 +69,10 @@
                         <Label fx:id="pName" alignment="CENTER_RIGHT" layoutX="14.0" layoutY="239.0" prefHeight="17.0" prefWidth="175.0" text="Friendly Pokemon" textAlignment="RIGHT" />
                         <Pane fx:id="movePane" layoutX="14.0" layoutY="398.0">
                            <children>
-                              <Button fx:id="move1Button" mnemonicParsing="false" onAction="#onMove1" prefHeight="54.0" prefWidth="185.0" text="Move 1" />
-                              <Button fx:id="move2Button" layoutY="68.0" mnemonicParsing="false" onAction="#onMove2" prefHeight="54.0" prefWidth="185.0" text="Move 2" />
-                              <Button fx:id="move3Button" layoutX="217.0" mnemonicParsing="false" onAction="#onMove3" prefHeight="54.0" prefWidth="185.0" text="Move 3" />
-                              <Button fx:id="move4Button" layoutX="217.0" layoutY="68.0" mnemonicParsing="false" onAction="#onMove4" prefHeight="54.0" prefWidth="185.0" text="Move 4" />
+                              <Button fx:id="move1Button" mnemonicParsing="false" onAction="#onMove1" prefHeight="54.0" prefWidth="185.0" text="Move 1" wrapText="true" />
+                              <Button fx:id="move2Button" layoutY="68.0" mnemonicParsing="false" onAction="#onMove2" prefHeight="54.0" prefWidth="185.0" text="Move 2" wrapText="true" />
+                              <Button fx:id="move3Button" layoutX="217.0" mnemonicParsing="false" onAction="#onMove3" prefHeight="54.0" prefWidth="185.0" text="Move 3" wrapText="true" />
+                              <Button fx:id="move4Button" layoutX="217.0" layoutY="68.0" mnemonicParsing="false" onAction="#onMove4" prefHeight="54.0" prefWidth="185.0" text="Move 4" wrapText="true" />
                            </children>
                         </Pane>
                         <ProgressBar fx:id="pHealthProgressBar" layoutX="14.0" layoutY="256.0" prefHeight="18.0" prefWidth="177.0" progress="1.0" />

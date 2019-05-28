@@ -10,6 +10,9 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.*;
 import javafx.scene.layout.*;
 import javafx.scene.media.*;
+import javafx.scene.paint.Paint;
+
+import java.awt.Color;
 import java.awt.Desktop;
 import java.net.URI;
 import java.util.Optional;
@@ -205,12 +208,14 @@ public class UIController{
     public void setFriendly(Pokemon p){
         pName.setText(p.getName() + " L" + p.getLevel());
         pImage.setImage(new Image("/sprites/" + p.getPokedex() + ".png"));
+        //pImage.setImage(new Image(p.getPokedex() + ".png"));
         setMove(p.getMoveset());
         setHealthBar(pHealthProgressBar, p);
     }
     public void setEnemy(Pokemon p){
         epName.setText(p.getName() + " L" + p.getLevel());
         epImage.setImage(new Image("/sprites/" + p.getPokedex() + ".png"));
+        //epImage.setImage(new Image(p.getPokedex() + ".png"));
         setHealthBar(epHealthProgressBar, p);
     }
     private void setHealthBar(ProgressBar pb, Pokemon p){
@@ -223,6 +228,7 @@ public class UIController{
             if(node instanceof Button){
                 Button b = (Button) node;
                 b.setText(battle.party[i].getName());
+                b.setTextFill(Paint.valueOf(API.getHexColor(battle.party[i].getType().get(0))));
                 if(battle.party[i].isDead()){
                     b.setDisable(true);
                 }
@@ -235,14 +241,21 @@ public class UIController{
         for(Node node : movePane.getChildren()){
             if(node instanceof Button){
                 Button b = (Button) node;
-                if(moveset[i] != null && moveset[i].getPP() > 0){
-                    b.setText(moveset[i].getName() + ": " + moveset[i].getPower() + " (" + moveset[i].getPP() + "/" + moveset[i].getBasePP() + ")");
-                    b.setDisable(false);
-                }else if(moveset[i] != null && moveset[i].getPP() == 0){
-                    b.setText(moveset[i].getName() + ": " + moveset[i].getPower() + " (" + moveset[i].getPP() + "/" + moveset[i].getBasePP() + ")");
-                    b.setDisable(true);
-                }else{
-                    b.setText("");
+                Move m = moveset[i];
+                if(m != null) {
+                	String[] info = {m.getName(), String.valueOf(m.getPower()), String.valueOf(m.getAccuracy()), String.valueOf(m.getPP()) + "/" + String.valueOf(m.getBasePP())};
+                    String output = String.join(" | ", info);
+                	if(m.getPP() > 0) {
+                		b.setText(output);
+                        b.setDisable(false);
+                        b.setTextFill(Paint.valueOf(API.getHexColor(m.getType())));
+                        
+                	}else if(moveset[i].getPP() == 0) {
+                		b.setText(output);
+                        b.setDisable(true);
+                	}
+                }else {
+                	b.setText("");
                     b.setDisable(true);
                 }
                 i++;
@@ -259,8 +272,10 @@ public class UIController{
                 ImageView img = (ImageView) node;
                 if(party[i].isDead()){
                     img.setImage(new Image("/Scenes/Pokeball_fainted.png"));
+                	//img.setImage(new Image("Pokeball_fainted.png"));
                 }else{
                     img.setImage(new Image("/Scenes/Pokeball.png"));
+                	//img.setImage(new Image("Pokeball.png"));
                 }
                 i++;
             }

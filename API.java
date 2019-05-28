@@ -90,7 +90,7 @@ public class API{
             //float _accuracy = Float.valueOf(String.valueOf(m.get("accuracy")));
             //String type = String.valueOf(m.get("type"));
             
-            Move move = new Move((String) m.get("name"), Integer.valueOf(String.valueOf(m.get("power"))), Float.valueOf(String.valueOf(m.get("accuracy"))), (String) m.get("type"), 5/*Integer.valueOf((String)m.get("pp"))*/);
+            Move move = new Move((String) m.get("name"), Integer.valueOf(String.valueOf(m.get("power"))), Float.valueOf(String.valueOf(m.get("accuracy"))), (String) m.get("type"), Integer.valueOf(String.valueOf(m.get("pp"))));
             moves.put(String.valueOf(m.get("name")), (Move) move.clone());
             return (Move) move.clone();
         }catch(FileNotFoundException e){
@@ -122,5 +122,28 @@ public class API{
         }
         //System.out.println("crud 2 (" + pokedex + ")");
         return null;
+    }
+    public static String getHexColor(String type) {
+    	switch(type) {
+    	case "bug": return "#8A9B02";
+    	case "dark": return "#322626";
+    	case "dragon": return "#6250C1";
+    	case "electric": return "#F8BC20";
+    	case "fairy": return "#D994DD";
+    	case "fighting": return "#522717";
+    	case "fire": return "#C92208";
+    	case "flying": return "#5B6FD1";
+    	case "ghost": return "#343569";
+    	case "grass": return "#3F9715";
+    	case "ground": return "#8B8247";
+    	case "ice": return "#69D0F4";
+    	//case "normal": return "A8A499";
+    	case "poison": return "#652B64";
+    	case "psychic": return "#E32965";
+    	case "rock": return "#9A7C30";
+    	case "steel": return "#9290A2";
+    	case "water": return "#0A68C9";
+    	default: return "black";
+    	}
     }
 }

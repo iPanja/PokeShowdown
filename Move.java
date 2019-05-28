@@ -1,3 +1,5 @@
+import java.awt.Color;
+
 //Diego Urena
 public class Move implements Cloneable{
     private String name;
@@ -200,7 +202,9 @@ public class Move implements Cloneable{
     }
     
     public void useMove(){
-        pp--;
+    	if(!name.equals("Struggle")){ 
+            pp--;
+    	}
     }
     
     public int getCritModifier(){

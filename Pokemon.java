@@ -11,11 +11,11 @@ public class Pokemon implements Cloneable{
         this.name=name;
         type1=types[0];
         type2=(types[1] == null)?"":types[1];
-        hpo=hp;
-        hpc=hp;
-        this.attack=attack;
-        this.defense=defense;
-        this.speed=speed;
+        hpo=effectiveHP(hp);
+        hpc=effectiveHP(hp);
+        this.attack=effectiveStat(attack);
+        this.defense=effectiveStat(defense);
+        this.speed=effectiveStat(speed);
         level=(int) (Math.random()*11)+79;
         moveset=new Move[moves.length];
         for(int i=0;i<moveset.length;i++){
@@ -90,11 +90,11 @@ public class Pokemon implements Cloneable{
     }
     
     private int effectiveHP(int base){
-        return (int)((((((base+31)*2)+(Math.sqrt(85)/4))*level)/100)+level+10);
+        return (int)((((((base+31)*2)+(Math.sqrt(127.5)/4))*level)/100)+level+10);
     }
     
     private int effectiveStat(int base){
-        return (int)((((((base+31)*2)+(Math.sqrt(85)/4))*level)/100)+5);
+    	return (int)((((((base+31)*2)+(Math.sqrt(127.5)/4))*level)/100)+5);
     }
     
     public void outOfPP(){

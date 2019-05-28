@@ -10,4 +10,6 @@ comment4.params=name
 comment4.target=Pokemon\ getPokemon(java.lang.String)
 comment5.params=pokedex
 comment5.target=Pokemon\ getPokemon(int)
-numComments=6
+comment6.params=type
+comment6.target=java.lang.String\ getHexColor(java.lang.String)
+numComments=7

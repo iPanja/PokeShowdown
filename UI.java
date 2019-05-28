@@ -42,6 +42,7 @@ public class UI extends Application{
         
         //Music
         Media media = new Media(Paths.get("./Scenes/music.mp3").toUri().toString());
+        //Media media = new Media(getClass().getResource("music.mp3").toURI().toString());
         MediaPlayer player = new MediaPlayer(media);
         player.setOnEndOfMedia(new Runnable(){
             public void run(){
