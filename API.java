@@ -12,7 +12,7 @@ public class API{
     //
     private static HashMap<String, Pokemon> pokemon = new HashMap<String, Pokemon>();
     private static HashMap<String, Move> moves = new HashMap<String, Move>();
-    public static final int amountOfPokemon = 151;
+    public static final int amountOfPokemon = 154;
     
     public static void main(String[] args){
         //For testing purposes
@@ -137,12 +137,14 @@ public class API{
     	case "grass": return "#3F9715";
     	case "ground": return "#8B8247";
     	case "ice": return "#69D0F4";
-    	//case "normal": return "A8A499";
+    	case "normal": return "A8A499";
     	case "poison": return "#652B64";
     	case "psychic": return "#E32965";
     	case "rock": return "#9A7C30";
     	case "steel": return "#9290A2";
     	case "water": return "#0A68C9";
+    	case "k-pop": return "FFAFF8";
+    	case "monkey": return "444328";
     	default: return "black";
     	}
     }

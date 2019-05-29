@@ -39,7 +39,7 @@ public class Move implements Cloneable{
                   effectiveness*=2;
                }else if(t2.equals("ghost")){
                   effectiveness*=0;
-               }else if(t2.equals("psychic")||t2.equals("flying")||t2.equals("poison")||t2.equals("bug")){
+               }else if(t2.equals("psychic")||t2.equals("flying")||t2.equals("poison")||t2.equals("bug")||t2.equals("fairy")){
                   effectiveness*=0.5;
                }
           }else if(t1.equals("flying")){
@@ -164,7 +164,7 @@ public class Move implements Cloneable{
         }else if(getEffectiveness(opp)==0){
             return "It had no effect... ";
         }else if(getEffectiveness(opp)<1){
-            return "It's not very effective. ";
+            return "It's not very effective... ";
         }else{
             return "";
         }

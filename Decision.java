@@ -82,7 +82,7 @@ public class Decision{
             s = "Switched to " + name + ". ";
         else
             if(getType() == type.ATTACK && didMiss())
-                s = "The move (" + getMove().getName() + ") missed! ";
+                s = name+ " used "+ getMove().getName() + ". It missed! ";
             else{
                 s = name + " used " + getMove().getName() + ". ";
                 s += effectiveness;

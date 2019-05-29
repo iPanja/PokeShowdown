@@ -96,6 +96,10 @@ public class Battle{
         //Swapping
         if(userDecision.getType() == type.SWAP){ //If user SWAPS
             selected = userDecision.getSwapIndex();
+            if(aiDecision.getType()==type.ATTACK){
+                aiDecision.setEffectiveness(aiDecision.getMove().effectiveMessage(party[selected])); //redo effectiveness for new user Pokemon
+            }
+            
             if(userDecision.isDeadSwap()){ //If user is swapping after their Pokemon died, the AI can not retaliate
                 //Update UI
                 _instance.refreshUI(userDecision, aiDecision);

@@ -9,6 +9,7 @@ public class Pokemon implements Cloneable{
     
     public Pokemon(String name, int hp,int attack, int defense, int speed, String[] types,Move[] moves,int pokedex){
         this.name=name;
+        level=(int) (Math.random()*11)+79;
         type1=types[0];
         type2=(types[1] == null)?"":types[1];
         hpo=effectiveHP(hp);
@@ -16,7 +17,6 @@ public class Pokemon implements Cloneable{
         this.attack=effectiveStat(attack);
         this.defense=effectiveStat(defense);
         this.speed=effectiveStat(speed);
-        level=(int) (Math.random()*11)+79;
         moveset=new Move[moves.length];
         for(int i=0;i<moveset.length;i++){
             moveset[i]=moves[i];
@@ -90,11 +90,13 @@ public class Pokemon implements Cloneable{
     }
     
     private int effectiveHP(int base){
-        return (int)((((((base+31)*2)+(Math.sqrt(127.5)/4))*level)/100)+level+10);
+        int effective=(((((base+31)*2)+((int)(Math.sqrt(127.5))/4))*level)/100)+level+10;
+        return effective;
     }
     
     private int effectiveStat(int base){
-    	return (int)((((((base+31)*2)+(Math.sqrt(127.5)/4))*level)/100)+5);
+    	int effective=(((((base+31)*2)+((int)(Math.sqrt(127.5))/4))*level)/100)+5;
+    	return effective;
     }
     
     public void outOfPP(){
@@ -111,7 +113,7 @@ public class Pokemon implements Cloneable{
             for(int i = 1; i < 4; i++){
                 moveset[i] = null;
             }
-            moveset[0]=new Move("Struggle",35,0.95f,"normal",10000);
+            moveset[0]=new Move("Struggle",35,0.95f,"normal",1);
         }
     }
 }
