@@ -39,7 +39,7 @@ public class Move implements Cloneable{
                   effectiveness*=2;
                }else if(t2.equals("ghost")){
                   effectiveness*=0;
-               }else if(t2.equals("psychic")||t2.equals("flying")||t2.equals("poison")||t2.equals("bug")||t2.equals("fairy")){
+               }else if(t2.equals("psychic")||t2.equals("flying")||t2.equals("poison")||t2.equals("bug")){
                   effectiveness*=0.5;
                }
           }else if(t1.equals("flying")){
@@ -126,13 +126,26 @@ public class Move implements Cloneable{
               }else if(t2.equals("fighting")||t2.equals("dark")||t2.equals("fairy")){
                   effectiveness*=0.5;
               }
-          }else{
+          }else if(t1.equals("fairy")){
               if(t2.equals("fire")||t2.equals("steel")||t2.equals("poison")){
                   effectiveness*=0.5;
               }else if(t2.equals("dragon")||t2.equals("fighting")||t2.equals("dark")){
                   effectiveness*=2;
               }
+          }else if(t1.equals("monkey")){
+              if(t2.equals("k-pop")){
+                  effectiveness*=-69;
+              }else{
+                  effectiveness*=2;
+              }
+          }else if(t1.equals("k-pop")){
+              if(t2.equals("monkey")){
+                  effectiveness*=1000000000;
+              }else{
+                  effectiveness*=0;
+              }
           }
+              
           return effectiveness;
     }
    
