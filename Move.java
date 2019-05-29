@@ -222,7 +222,7 @@ public class Move implements Cloneable{
     
     public int getCritModifier(){
         double random=Math.random();
-        if(random<0.10){
+        if(random<0.05){
             crit=true;
             return 2;
         }else{
