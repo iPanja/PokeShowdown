@@ -38,6 +38,8 @@ public class Battle{
         float modifier=userMove.getEffectiveness(opp)*userMove.stab(user)*critical;
         return (int) (((((2*user.getLevel())/5+2) * userMove.getPower() * (user.getAttack()/opp.getDefense()))/50 + 2) * modifier);
     }
+    
+    //Diego Urena
     public Boolean hit(Move userMove, Pokemon user, Pokemon opp){
         double random=Math.random();
         if(random<=userMove.getAccuracy()){
@@ -206,14 +208,6 @@ public class Battle{
             advantage += (-1) * moveAdv(oppTest2, user);
         }
         int index = maxDamageIndex(user, opp);
-        //System.out.println("MDI: " + index);
-        if(user.getMove(index) == null){
-            System.out.println(user.getName());
-            System.out.println(opp.getName());
-            for(Move m : user.getMoveset())
-                System.out.println(m);
-            System.out.println("--------");
-        }
         advantage += moveAdv(user.getMove(maxDamageIndex(user, opp)), opp);
         return advantage;
     }
