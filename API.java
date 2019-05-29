@@ -48,7 +48,6 @@ public class API{
                         types[x] = (String) jTypes.get(x);
                     }
                     
-                    
                     Pokemon poke = new Pokemon((String)p.get("name"), Integer.valueOf(String.valueOf(p.get("hp"))), Integer.valueOf(String.valueOf(p.get("attack"))), Integer.valueOf(String.valueOf(p.get("defense"))), Integer.valueOf(String.valueOf(p.get("speed"))), /*new String[]{"flying", "fire"}*/types, moveset, i);
                     API.pokemon.put((String)p.get("name"), poke);
                 }catch(NullPointerException e){

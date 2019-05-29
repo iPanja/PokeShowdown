@@ -9,6 +9,7 @@ public class Pokemon implements Cloneable{
     
     public Pokemon(String name, int hp,int attack, int defense, int speed, String[] types,Move[] moves,int pokedex){
         this.name=name;
+        level=(int) (Math.random()*11)+79;
         type1=types[0];
         type2=(types[1] == null)?"":types[1];
         hpo=effectiveHP(hp);
@@ -16,7 +17,6 @@ public class Pokemon implements Cloneable{
         this.attack=effectiveStat(attack);
         this.defense=effectiveStat(defense);
         this.speed=effectiveStat(speed);
-        level=(int) (Math.random()*11)+79;
         moveset=new Move[moves.length];
         for(int i=0;i<moveset.length;i++){
             moveset[i]=moves[i];
