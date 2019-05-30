@@ -79,7 +79,10 @@ public class Decision{
     public String getDescription(){
         String s = "";
         if(getType() == type.SWAP)
-            s = "Switched to " + name + ". ";
+            if(name == "George")
+                s = "George has pulled up to the function. ";
+            else
+                s = "Switched to " + name + ". ";
         else
             if(getType() == type.ATTACK && didMiss())
                 s = "The move (" + getMove().getName() + ") missed! ";

@@ -172,7 +172,11 @@ public class Battle{
                 if(eparty[eselected].isDead() && pokemonLeft(eparty) >= 1){
                     int temp = AISwitch();
                     //_instance.setEnemyDescription(eparty[eselected].getName() + " has fainted! Switched to " + eparty[temp].getName());
-                    aiDecision.overrideMessage(eparty[eselected].getName() + " has fainted! Switched to " + eparty[temp].getName() + ". ");
+                    
+                    if(eparty[eselected].getName() != "Eric")
+                        aiDecision.overrideMessage(eparty[eselected].getName() + " has fainted! Switched to " + eparty[temp].getName() + ". ");
+                    else
+                        aiDecision.overrideMessage("Eric's gotta go! Switched to " + eparty[temp].getName() + ". ");
                     eselected = temp;
                     return true;
                 }
@@ -183,7 +187,10 @@ public class Battle{
             else{
                 if(party[selected].isDead()){
                     //_instance.setFriendlyDescription(party[selected].getName() + "has fainted!");
-                    userDecision.overrideMessage(party[selected].getName() + " has fainted! ");
+                    if(party[selected].getName() != "Eric")
+                        userDecision.overrideMessage(party[selected].getName() + " has fainted! ");
+                    else
+                        userDecision.overrideMessage("Eric's gotta go! ");
                     return true;
                 }
             }
