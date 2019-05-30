@@ -824,8 +824,9 @@
       ],
       "moves":[
          "confusion",
-         "stomp",
-         "egg bomb"
+         "ancientpower",
+         "egg bomb",
+         "psychic"
       ],
       "curve":1
    },
@@ -1061,7 +1062,7 @@
       "curve":1
    },
    "122":{
-      "name":"Mr. mime",
+      "name":"Mr. Mime",
       "attack":100,
       "defense":120,
       "hp":40,

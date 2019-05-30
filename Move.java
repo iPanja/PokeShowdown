@@ -126,13 +126,26 @@ public class Move implements Cloneable{
               }else if(t2.equals("fighting")||t2.equals("dark")||t2.equals("fairy")){
                   effectiveness*=0.5;
               }
-          }else{
+          }else if(t1.equals("fairy")){
               if(t2.equals("fire")||t2.equals("steel")||t2.equals("poison")){
                   effectiveness*=0.5;
               }else if(t2.equals("dragon")||t2.equals("fighting")||t2.equals("dark")){
                   effectiveness*=2;
               }
+          }else if(t1.equals("monkey")){
+              if(t2.equals("k-pop")){
+                  effectiveness*=-69;
+              }else{
+                  effectiveness*=2;
+              }
+          }else if(t1.equals("k-pop")){
+              if(t2.equals("monkey")){
+                  effectiveness*=1000000000;
+              }else{
+                  effectiveness*=0;
+              }
           }
+              
           return effectiveness;
     }
    
@@ -164,7 +177,7 @@ public class Move implements Cloneable{
         }else if(getEffectiveness(opp)==0){
             return "It had no effect... ";
         }else if(getEffectiveness(opp)<1){
-            return "It's not very effective. ";
+            return "It's not very effective... ";
         }else{
             return "";
         }
@@ -209,7 +222,7 @@ public class Move implements Cloneable{
     
     public int getCritModifier(){
         double random=Math.random();
-        if(random<0.10){
+        if(random<0.05){
             crit=true;
             return 2;
         }else{
