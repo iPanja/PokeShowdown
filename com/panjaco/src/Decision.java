@@ -1,3 +1,4 @@
+package com.panjaco.src;
 public class Decision{
     private type choice;
     private Move move;

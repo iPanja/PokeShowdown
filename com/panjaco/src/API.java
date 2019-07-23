@@ -1,3 +1,4 @@
+package com.panjaco.src;
 //Fletcher Henneman
     //-> This class handles the importing of the JSON files (both Pokemon and their moves) as well as providing public methods to access that information
 import java.io.FileReader;
@@ -7,6 +8,7 @@ import java.io.FileNotFoundException;
 import org.json.simple.*;
 import org.json.simple.parser.*;
 import java.util.*;
+import com.panjaco.Scenes.*;
 
 public class API{
     //
@@ -31,7 +33,8 @@ public class API{
         System.out.println("Parsing pokemon.json (" + pokemon.size() + ")");
         JSONParser parser = new JSONParser();
         try{
-            FileReader fr = new FileReader("pokemon.json");
+        	System.out.println(System.getProperty("user.dir"));
+            FileReader fr = new FileReader("com/panjaco/Scenes/pokemon.json");
             JSONObject collection = (JSONObject) parser.parse(fr);
             for(int i = 1; i <= amountOfPokemon; i++){ //151 Pokemon
                 try{
@@ -79,7 +82,7 @@ public class API{
         //System.out.println("-> Parsing pokemonMoves.json");
         JSONParser parser = new JSONParser();
         try{
-            FileReader fr = new FileReader("pokemonMoves.json");
+            FileReader fr = new FileReader("com/panjaco/Scenes/pokemonMoves.json");
             JSONObject collection = (JSONObject) parser.parse(fr);
             JSONObject m = (JSONObject) collection.get(name);
             if(m == null)

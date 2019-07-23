@@ -1,4 +1,4 @@
-
+package com.panjaco.src;
 /**
  * Enumeration class type - write a description of the enum class here
  *

@@ -1,3 +1,4 @@
+package com.panjaco.src;
 //Fletcher Henneman
 //Semi-Placeholder Battle class
 public class Battle{

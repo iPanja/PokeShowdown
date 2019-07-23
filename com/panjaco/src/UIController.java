@@ -1,3 +1,4 @@
+package com.panjaco.src;
 //Fletcher Henneman
     //-> This class handles all of the UI interaction
 import javafx.event.ActionEvent;
@@ -14,6 +15,9 @@ import javafx.scene.paint.Paint;
 
 import java.awt.Color;
 import java.awt.Desktop;
+import java.awt.Toolkit;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.StringSelection;
 import java.net.URI;
 import java.util.Optional;
 import javafx.application.Application;
@@ -75,6 +79,13 @@ public class UIController{
     private Button swap5Button;
     @FXML
     private Button swap6Button;
+    //Mutliplayer
+    @FXML
+    private TextField displayNameField;
+    @FXML
+    private TextField ipAddressField;
+    @FXML
+    private Label ipLabel;
     
     public UIController(Battle battleInstance){
         this.battle = battleInstance;
@@ -168,6 +179,12 @@ public class UIController{
     private void onToggleMusic(ActionEvent event){
         toggleMusic();
     }
+    //Multiplayer
+    @FXML
+    private void onSendRequest(ActionEvent event) {
+    	UI.setupClient(displayNameField.getText());
+    	UI.clientInstance.sendRequest(displayNameField.getText(), ipAddressField.getText());
+    }
     //Useful methods
     public void refreshUI(Decision userDecision, Decision aiDecision){
         setFriendly(battle.party[battle.selected]);
@@ -205,16 +222,27 @@ public class UIController{
             return true;
         return false;
     }
+    public String getInputAlert(String header, String prompt) {
+    	TextInputDialog dialog = new TextInputDialog("");
+    	dialog.setTitle("PokeShowdown");
+    	dialog.setHeaderText(header);
+    	dialog.setContentText(prompt);
+    	Optional<String> result = dialog.showAndWait();
+    	if(result.isPresent()) {
+    		return result.toString();
+    	}
+    	return null;
+    }
     public void setFriendly(Pokemon p){
         pName.setText(p.getName() + " L" + p.getLevel());
-        pImage.setImage(new Image("/sprites/" + p.getPokedex() + ".png"));
+        pImage.setImage(new Image("com/panjaco/sprites/" + p.getPokedex() + ".png"));
         //pImage.setImage(new Image(p.getPokedex() + ".png"));
         setMove(p.getMoveset());
         setHealthBar(pHealthProgressBar, p);
     }
     public void setEnemy(Pokemon p){
         epName.setText(p.getName() + " L" + p.getLevel());
-        epImage.setImage(new Image("/sprites/" + p.getPokedex() + ".png"));
+        epImage.setImage(new Image("com/panjaco/sprites/" + p.getPokedex() + ".png"));
         //epImage.setImage(new Image(p.getPokedex() + ".png"));
         setHealthBar(epHealthProgressBar, p);
     }
@@ -263,6 +291,8 @@ public class UIController{
         }
     }
     public void setMusicPlayer(MediaPlayer mediaPlayer){
+    	System.out.println("Music View: " + mediaView);
+    	System.out.println("Media Player: " + mediaPlayer);
         mediaView.setMediaPlayer(mediaPlayer);
     }
     public void setEnemyPartyIndicator(Pokemon[] party){
@@ -271,15 +301,18 @@ public class UIController{
             if(node instanceof ImageView){
                 ImageView img = (ImageView) node;
                 if(party[i].isDead()){
-                    img.setImage(new Image("/Scenes/Pokeball_fainted.png"));
+                    img.setImage(new Image("com/panjaco/Scenes/Pokeball_fainted.png"));
                 	//img.setImage(new Image("Pokeball_fainted.png"));
                 }else{
-                    img.setImage(new Image("/Scenes/Pokeball.png"));
+                    img.setImage(new Image("com/panjaco/Scenes/Pokeball.png"));
                 	//img.setImage(new Image("Pokeball.png"));
                 }
                 i++;
             }
         }
+    }
+    public void setIPLabel(String text) {
+    	ipLabel.setText(text);
     }
     public void toggleMusic(){
         enabled = !enabled;
@@ -299,5 +332,9 @@ public class UIController{
                 System.out.println("Github URL broken");
             }
         }
+    }
+    public void copyIp() {
+    	Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+    	clipboard.setContents(new StringSelection(UI.ip), null);
     }
 }

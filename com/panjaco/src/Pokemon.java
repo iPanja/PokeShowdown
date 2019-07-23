@@ -1,3 +1,4 @@
+package com.panjaco.src;
 //Diego Urena
 import java.util.ArrayList;
 public class Pokemon implements Cloneable{
