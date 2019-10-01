@@ -29,6 +29,7 @@ public class GameServer{
 		instance.start();
 		try {
 			instance.bind(tcpPort, udpPort);
+			System.out.println("TCP/UDP port binded");
 		}catch(IOException e) {
 			System.out.println("Failed to bind TCP/UDP port");
 			e.printStackTrace();

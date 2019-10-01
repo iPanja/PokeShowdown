@@ -20,6 +20,9 @@ import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
 import java.net.URI;
 import java.util.Optional;
+
+import javax.imageio.ImageIO;
+
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.stage.*;
@@ -235,14 +238,14 @@ public class UIController{
     }
     public void setFriendly(Pokemon p){
         pName.setText(p.getName() + " L" + p.getLevel());
-        pImage.setImage(new Image("com/panjaco/sprites/" + p.getPokedex() + ".png"));
+        pImage.setImage(API.getImage("sprites/" + p.getPokedex() + ".png"));
         //pImage.setImage(new Image(p.getPokedex() + ".png"));
         setMove(p.getMoveset());
         setHealthBar(pHealthProgressBar, p);
     }
     public void setEnemy(Pokemon p){
         epName.setText(p.getName() + " L" + p.getLevel());
-        epImage.setImage(new Image("com/panjaco/sprites/" + p.getPokedex() + ".png"));
+        epImage.setImage(API.getImage("sprites/" + p.getPokedex() + ".png"));
         //epImage.setImage(new Image(p.getPokedex() + ".png"));
         setHealthBar(epHealthProgressBar, p);
     }
@@ -301,10 +304,11 @@ public class UIController{
             if(node instanceof ImageView){
                 ImageView img = (ImageView) node;
                 if(party[i].isDead()){
-                    img.setImage(new Image("com/panjaco/Scenes/Pokeball_fainted.png"));
+                    img.setImage(API.getImage("Scenes/Pokeball_fainted.png"));
                 	//img.setImage(new Image("Pokeball_fainted.png"));
                 }else{
-                    img.setImage(new Image("com/panjaco/Scenes/Pokeball.png"));
+                	
+                    img.setImage(API.getImage("Scenes/Pokeball.png"));
                 	//img.setImage(new Image("Pokeball.png"));
                 }
                 i++;

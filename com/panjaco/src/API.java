@@ -3,12 +3,16 @@ package com.panjaco.src;
     //-> This class handles the importing of the JSON files (both Pokemon and their moves) as well as providing public methods to access that information
 import java.io.FileReader;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.Iterator;
+import java.io.File;
 import java.io.FileNotFoundException;
 import org.json.simple.*;
 import org.json.simple.parser.*;
 import java.util.*;
-import com.panjaco.Scenes.*;
+import com.panjaco.src.Scenes.*;
+
+import javafx.scene.image.Image;
 
 public class API{
     //
@@ -25,6 +29,15 @@ public class API{
         //System.out.println(moves);
     }
     
+    private static String getAbsolutePath() {
+    	return API.class.getProtectionDomain().getCodeSource().getLocation().getPath().toString();
+    }
+    public static File getFile(String relativePath) {
+    	return new File(getAbsolutePath() + "com/panjaco/src/" + relativePath);
+    }
+    public static Image getImage(String relativePath) {
+    	return new Image("file:" + getAbsolutePath() + "com/panjaco/src/" + relativePath);
+    }
     //Pokemon.json -> Pokemon[] objects
     private static void importPokemon(){
         if(pokemon.size() != 0)
@@ -33,8 +46,8 @@ public class API{
         System.out.println("Parsing pokemon.json (" + pokemon.size() + ")");
         JSONParser parser = new JSONParser();
         try{
-        	System.out.println(System.getProperty("user.dir"));
-            FileReader fr = new FileReader("com/panjaco/Scenes/pokemon.json");
+            //FileReader fr = new FileReader("./com/panjaco/src/Scenes/pokemon.json");
+        	FileReader fr = new FileReader(getFile("Scenes/pokemon.json"));
             JSONObject collection = (JSONObject) parser.parse(fr);
             for(int i = 1; i <= amountOfPokemon; i++){ //151 Pokemon
                 try{
@@ -71,7 +84,7 @@ public class API{
         System.out.println(amountOfPokemon + " Pokemon Imported");
         System.out.println(moves.size() + " Moves Imported");
     }
-    private static Move getMove(String name){
+    private static Move getMove(String name){ //Throws error from the getResource methods :/
         for(Map.Entry<String, Move> entry : moves.entrySet()){
             if(entry.getKey().equalsIgnoreCase(name)){
                 //System.out.println("-> Move already imported...");
@@ -82,7 +95,8 @@ public class API{
         //System.out.println("-> Parsing pokemonMoves.json");
         JSONParser parser = new JSONParser();
         try{
-            FileReader fr = new FileReader("com/panjaco/Scenes/pokemonMoves.json");
+            FileReader fr = new FileReader(getFile("Scenes/pokemonMoves.json"));
+        	//FileReader fr = new FileReader(API.class.getClass().getResource("Scenes/pokemonMoves.json").toURI().toString());
             JSONObject collection = (JSONObject) parser.parse(fr);
             JSONObject m = (JSONObject) collection.get(name);
             if(m == null)
