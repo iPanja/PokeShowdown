@@ -34,7 +34,7 @@ Features:
 * Takes into account both Pokemon and their moves' strengths, weaknesses, and stats when calculating damage
 * Battle against the computer which takes into account what moves to make and when to tactically swap out
 
-Created by Fletcher Henneman, Diego Urena, and Ethan Kim.
+Most of the JSON data containing Pokemon, move types, damage numbers, etc were manually compiled from multiple website as we could not find exact all-in-on solutinos like we required. Created by Fletcher Henneman, Diego Urena, and Ethan Kim.
 
 ## Getting Started
 
