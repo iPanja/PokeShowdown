@@ -53,4 +53,4 @@ Distributed under the MIT License. See `LICENSE` for more information. Feel free
 
 
 <!-- MARKDOWN LINKS & IMAGES -->
-[product-screenshot] : caps/Snapshot.png
+[product-screenshot]: caps/Snapshot.png
