@@ -1,0 +1,15 @@
+#BlueJ class context
+comment0.target=API
+comment1.params=args
+comment1.target=void\ main(java.lang.String[])
+comment2.params=
+comment2.target=void\ importPokemon()
+comment3.params=name
+comment3.target=Move\ getMove(java.lang.String)
+comment4.params=name
+comment4.target=Pokemon\ getPokemon(java.lang.String)
+comment5.params=pokedex
+comment5.target=Pokemon\ getPokemon(int)
+comment6.params=type
+comment6.target=java.lang.String\ getHexColor(java.lang.String)
+numComments=7
