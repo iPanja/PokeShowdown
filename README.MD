@@ -1,11 +1,11 @@
 [![Maintenance](https://img.shields.io/maintenance/yes/2017.svg)](https://GitHub.com/Naereen/StrapDown.js/graphs/commit-activity)
-[![MIT License][license-shield]][license-url]
+[![GitHub license](https://img.shields.io/github/license/Naereen/StrapDown.js.svg)](https://github.com/Naereen/StrapDown.js/blob/master/LICENSE)
 
 ***PokeShowdown***
 <br />
 <p align="center">
   <a href="https://github.com/othneildrew/Best-README-Template">
-    <img src="caps/logo.png" alt="Logo" width="80" height="80">
+    <img src="caps/Pokeball.png" alt="Logo" width="80" height="80">
   </a>
 
   <h3 align="center">PokeShowdown</h3>
