@@ -31,7 +31,7 @@
 PokeShowdown is a Pokemon Battle Simulator created as a final project for my Computer Science A class written purely in Java.
 
 Features:
-* Contains all 151 Gen I Pokemon along
+* Contains all 151 Gen I Pokemon along their actual moves/stats
 * Takes into account both Pokemon and their moves' strengths, weaknesses, and stats when calculating damage
 * Battle against the computer which takes into account what moves to make and when to tactically swap out
 
