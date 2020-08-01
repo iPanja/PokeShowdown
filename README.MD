@@ -15,7 +15,7 @@
     <a href="https://panjaco.com"><strong>My Website »</strong></a>
     <br />
     <br />
-    <a href="">View Demo</a>
+    <a href="https://youtu.be/icvxo4iglU0">View Demo</a>
     ·
     <a href="https://github.com/iPanja/PokeShowdown/issues">Report Bug</a>
     ·
